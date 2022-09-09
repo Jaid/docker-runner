@@ -17,12 +17,12 @@ jobs:
     strategy:
       matrix:
         include:
-          - registry: docker.io
-            username: jaidchen
-            imageName: jaidchen/$repo
-            passwordId: dockerHubToken
+          # - registry: docker.io
+          #   username: jaidchen
+          #   imageName: jaidchen/$repo
+          #   passwordId: dockerHubToken
           - registry: ghcr.io
-            imageName: ${{ github.event.repository.full_name }}
+            imageName: ${{ github.repository }}
             username: ${{ github.actor }}
             passwordId: GITHUB_TOKEN
     steps:
@@ -40,6 +40,11 @@ jobs:
           registry: ${{ matrix.registry }}
           username: ${{ matrix.username }}
           password: ${{ secrets[matrix.passwordId] }}
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v4.0.1
+        with:
+          images: ${{ matrix.registry }}/${{ steps.nameSetter.outputs.imageName }}
       - name: Build and push to ${{ matrix.registry }}
         uses: docker/build-push-action@v3
         with:
