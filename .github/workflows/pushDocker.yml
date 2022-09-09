@@ -44,8 +44,8 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4.0.1
         with:
-          images: ${{ matrix.registry }}/${{ steps.nameSetter.outputs.imageName }}
-      - name: Build and push to ${{ matrix.registry }}
+          images: ${{ matrix.registry }}/${{ github.repository }}
+      - name: Build and push
         uses: docker/build-push-action@v3
         with:
           push: true
