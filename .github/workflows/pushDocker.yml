@@ -21,7 +21,7 @@ jobs:
       - name: Set name
         id: dockerHubRef
         shell: bash
-        run: repoName=${{ github.event.repository.name }} && printf '::set-output name=ref::%s%s' ${{ env.dockerHubUser }} ${repoName##docker-}
+        run: repoName=${{ github.event.repository.name }} && shortName=${repoName##docker-} && printf '::set-output name=ref::%s/%s\n::set-output name=shortName::%s' ${{ env.dockerHubUser }} $shortName $shortName
       - name: Checkout
         uses: actions/checkout@v3
       - name: Set up qemu
@@ -46,6 +46,11 @@ jobs:
           images: |
             ${{ env.githubRegistry }}/${{ github.repository }}
             ${{ steps.dockerHubRef.outputs.ref }}
+          labels: |
+            maintainer=${{ github.actor }}
+            org.opencontainers.image.vendor=${{ github.actor }}
+            org.opencontainers.image.title=${{ steps.dockerHubRef.outputs.shortName }}
+
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
