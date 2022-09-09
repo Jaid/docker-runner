@@ -31,7 +31,7 @@ jobs:
       - name: Login to ${{ env.dockerHubRegistry }}
         uses: docker/login-action@v2
         with:
-          username: ${{ env.dockerUser }}
+          username: ${{ env.dockerHubUser }}
           password: ${{ secrets.dockerHubToken }}
       - name: Login to ${{ env.githubRegistry }}
         uses: docker/login-action@v2
