@@ -12,6 +12,7 @@ ENV userHome=/$userName
 RUN addgroup --system --gid $groupId $groupName
 RUN adduser --disabled-password --gecos '' --uid $userId --ingroup $groupName --home $userHome --no-create-home --shell /bin/bash $userName
 RUN mkdir --parents $userHome
+RUN chown $userId:$groupId $userHome
 
 RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --yes --quiet update
 RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --yes --quiet upgrade
