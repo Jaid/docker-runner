@@ -23,6 +23,7 @@ jobs:
           #   passwordId: dockerHubToken
           - registry: ghcr.io
             imageName: ${{ github.event.repository.name }}
+            metaRef: ghcr.io/${{ github.repository }}
             username: ${{ github.actor }}
             passwordId: GITHUB_TOKEN
     steps:
@@ -44,7 +45,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4.0.1
         with:
-          images: ${{ matrix.registry }}/${{ steps.nameSetter.outputs.imageName }}
+          images: ${{ matrix.metaRef }}
       - name: Build and push to ${{ matrix.registry }}
         uses: docker/build-push-action@v3
         with:
