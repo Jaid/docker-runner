@@ -45,7 +45,7 @@ jobs:
         with:
           images: |
             ${{ env.githubRegistry }}/${{ github.repository }}
-            ${{ steps.dockerHubRef.outputs.ref }}
+            ${{ steps.dockerHubRef.outputs.ref }}:latest
           labels: |
             maintainer=${{ github.actor }}
             org.opencontainers.image.vendor=${{ github.actor }}
