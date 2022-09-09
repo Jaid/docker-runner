@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM ubuntu:kinetic
+FROM ubuntu:22.10
 
 ENV userName=app
 ENV groupName=$userName
