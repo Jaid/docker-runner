@@ -21,7 +21,7 @@ RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --y
 RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --yes --quiet autoclean
 RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --yes --quiet autoremove
 
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+ADD https://github.com/krallin/tini/releases/download/${tiniVersion}/tini /tini
 
 ENV debugBash=false
 WORKDIR $userHome
