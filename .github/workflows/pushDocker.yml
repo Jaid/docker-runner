@@ -13,6 +13,6 @@ env:
   githubRegistry: ghcr.io
 jobs:
   job:
-    uses: jaid/workflow-templates/src/dockerPush.yml
+    uses: jaid/workflow-templates/src/dockerPush.yml@main
     secrets:
       dockerHubToken: ${{ secrets.dockerHubToken }}
