@@ -2,11 +2,13 @@
 
 FROM ubuntu:22.10
 
-ENV userName=app
-ENV groupName=$userName
-ENV userId=1000
-ENV groupId=$userId
-ENV userHome=/$userName
+ENV userName app
+ENV groupName $userName
+ENV userId 1000
+ENV groupId $userId
+ENV userHome /$userName
+
+ENV tiniVersion v0.19.0
 
 # https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user
 RUN addgroup --system --gid $groupId $groupName
@@ -19,5 +21,10 @@ RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --y
 RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --yes --quiet autoclean
 RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --yes --quiet autoremove
 
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+
 ENV debugBash=false
 WORKDIR $userHome
+
+ENTRYPOINT ["/tini", "--"]
+CMD bash
