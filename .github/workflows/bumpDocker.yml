@@ -13,6 +13,6 @@ on:
         - major
 jobs:
   job:
-    uses: jaid/workflows/.github/workflows/bump.yml@main
+    uses: jaid/workflows/.github/workflows/bumpDocker.yml@main
     with:
       bumpAmount: ${{ inputs.bumpAmount }}
