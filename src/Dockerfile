@@ -19,5 +19,6 @@ RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --y
 RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --yes autoclean
 RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --yes autoremove
 
-ENV debugBash=false
+RUN rm -rf /var/lib/apt/lists/*
+
 WORKDIR $userHome
