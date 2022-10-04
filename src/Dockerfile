@@ -24,5 +24,5 @@ RUN rm -rf /usr/share/doc
 RUN rm -rf /usr/share/man
 
 WORKDIR $userHome
-ENTRYPOINT ["/usr/bin/su", "--command", "$userHome/run" "$userName"]
+ENTRYPOINT ["/usr/bin/su", "--command", "/app/run" "app"]
 CMD []
