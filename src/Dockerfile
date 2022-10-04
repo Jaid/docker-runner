@@ -20,6 +20,9 @@ RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --y
 RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --yes autoremove
 
 RUN rm -rf /var/lib/apt/lists/*
+RUN rm -rf /var/cache/apt/archives/*
+RUN rm -rf /usr/share/doc
+RUN rm -rf /usr/share/man
 
 WORKDIR $userHome
 ENTRYPOINT bash $userHome/run
