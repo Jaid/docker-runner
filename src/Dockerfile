@@ -21,7 +21,7 @@ RUN rm -rf /var/log/*
 RUN rm -rf /var/lib/apt/lists/*
 RUN rm -rf /var/cache/apt/archives/*
 RUN rm -rf /usr/share/doc
-RUN rm -rf /usr/share/
+RUN rm -rf /usr/share/man
 
 WORKDIR $userHome
 ENTRYPOINT /usr/bin/sh -c "su --command $userHome/run $userName"
