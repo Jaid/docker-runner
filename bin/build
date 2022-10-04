@@ -3,5 +3,7 @@ set -o errexit
 
 here="$(cd -- "$(dirname -- "${BASH_SOURCE[0]:-}")" &>/dev/null && pwd 2>/dev/null)"
 
+distFolder="$here/../dist"
 imageName="$("$here/imageName")"
-docker build --tag "$imageName" "$here/../src"
+mkdir --parents "$distFolder"
+docker build --tag "$imageName" --progress plain "$here/../src" "$@" |& tee "$distFolder/build.log"
