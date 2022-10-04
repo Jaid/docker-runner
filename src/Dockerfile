@@ -25,4 +25,4 @@ RUN rm -rf /usr/share/doc
 RUN rm -rf /usr/share/man
 
 WORKDIR $userHome
-ENTRYPOINT bash $userHome/run
+ENTRYPOINT ["su", "--command", "$userHome/run" "$userName"]
