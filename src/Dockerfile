@@ -24,5 +24,8 @@ RUN rm -rf /usr/share/doc
 RUN rm -rf /usr/share/man
 
 WORKDIR $userHome
-ONBUILD ADD bin/* $userHome/bin
-ENTRYPOINT ["/usr/bin/sh", "-c", "/usr/bin/su --command $userHome/run $userName"]
+ONBUILD ADD . .
+ONBUILD RUN chown --recursive .
+ONBUILD RUN chmod --recursive o+x bin
+ONBUILD RUN /usr/bin/bash -c "if [[ -f bin/build ]]; then; bin/build; rm bin/build; fi"
+ENTRYPOINT ["/usr/bin/sh", "-c", "/usr/bin/su --command bin/run $userName"]
