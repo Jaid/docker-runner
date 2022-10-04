@@ -19,6 +19,7 @@ RUN chown $userId:$groupId $userHome
 # RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --yes autoclean
 # RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --yes autoremove
 
+RUN rm -rf /var/log/*
 RUN rm -rf /var/lib/apt/lists/*
 RUN rm -rf /var/cache/apt/archives/*
 RUN rm -rf /usr/share/doc
