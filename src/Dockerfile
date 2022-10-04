@@ -14,10 +14,10 @@ RUN adduser --disabled-password --gecos '' --uid $userId --ingroup $groupName --
 RUN mkdir --parents $userHome
 RUN chown $userId:$groupId $userHome
 
-# RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --yes update
-# RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --yes upgrade
-# RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --yes autoclean
-# RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --yes autoremove
+RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --yes update
+RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --yes upgrade
+RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --yes autoclean
+RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --yes autoremove
 
 RUN rm -rf /var/log/*
 RUN rm -rf /var/lib/apt/lists/*
@@ -27,3 +27,4 @@ RUN rm -rf /usr/share/man
 
 WORKDIR $userHome
 ENTRYPOINT ["su", "--command", "$userHome/run" "$userName"]
+CMD []
