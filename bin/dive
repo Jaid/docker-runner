@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -o errexit
-set -o xtrace
+
 here="$(cd -- "$(dirname -- "${BASH_SOURCE[0]:-}")" &>/dev/null && pwd 2>/dev/null)"
 
 divePath=${divePath:-$(command -v dive)}
