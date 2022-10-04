@@ -9,8 +9,8 @@ ENV userHome /$userName
 # https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user
 RUN addgroup --system --gid $groupId $groupName
 RUN adduser --disabled-password --gecos '' --uid $userId --ingroup $groupName --home $userHome --no-create-home --shell /bin/bash $userName
-RUN mkdir --parents $userHome
-RUN chown $userId:$groupId $userHome
+RUN mkdir --parents $userHome/bin
+RUN chown --recursive $userId:$groupId $userHome
 
 RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --yes update
 RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --yes upgrade
@@ -24,4 +24,5 @@ RUN rm -rf /usr/share/doc
 RUN rm -rf /usr/share/man
 
 WORKDIR $userHome
-ENTRYPOINT /usr/bin/sh -c "/usr/bin/su --command \"$userHome/run\" $userName"
+ONBUILD ADD bin/* $userHome/bin
+ENTRYPOINT ["/usr/bin/sh", "-c", "/usr/bin/su --command $userHome/run $userName"]
