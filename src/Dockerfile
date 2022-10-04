@@ -6,8 +6,6 @@ ENV userId 1000
 ENV groupId $userId
 ENV userHome /$userName
 
-ADD content/* /root
-
 # https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user
 RUN addgroup --system --gid $groupId $groupName
 RUN adduser --disabled-password --gecos '' --uid $userId --ingroup $groupName --home $userHome --no-create-home --shell /bin/bash $userName
@@ -26,4 +24,4 @@ RUN rm -rf /usr/share/doc
 RUN rm -rf /usr/share/
 
 WORKDIR $userHome
-ENTRYPOINT ["/usr/bin/sh", "/root/init"]
+ENTRYPOINT /usr/bin/sh -c "su --command $userHome/run $userName"

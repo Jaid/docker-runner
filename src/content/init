@@ -1,1 +1,0 @@
-su --command "$userHome"/run "$userName"
