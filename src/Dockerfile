@@ -22,3 +22,4 @@ RUN apt-get --option Acquire::Retries=60 --option Acquire::http::Timeout=180 --y
 RUN rm -rf /var/lib/apt/lists/*
 
 WORKDIR $userHome
+ENTRYPOINT bash $userHome/run

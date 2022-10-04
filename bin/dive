@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -o errexit
+
+here="$(cd -- "$(dirname -- "${BASH_SOURCE[0]:-}")" &>/dev/null && pwd 2>/dev/null)"
+
+bash "$here/build"
+
+imageName="$("$here/imageName")"
+D:/portable/dive/0.10.0/dive.exe "$imageName"

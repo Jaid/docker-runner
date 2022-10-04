@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -o errexit
+
+here="$(cd -- "$(dirname -- "${BASH_SOURCE[0]:-}")" &>/dev/null && pwd 2>/dev/null)"
+
+imageName="$("$here/imageName")"
+docker build --tag "$imageName" "$here/../src"
