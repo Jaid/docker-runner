@@ -3,9 +3,6 @@ on:
   push:
     branches:
       - main
-  release:
-    types:
-      - published
   schedule:
     - cron: 45 23 * * 0 # https://crontab.guru/#45_23_*_*_0
 jobs:
