@@ -16,3 +16,5 @@ jobs:
     uses: jaid/workflows/.github/workflows/bumpDocker.yml@main
     with:
       bumpAmount: ${{ inputs.bumpAmount }}
+    secrets:
+      dockerHubToken: ${{ secrets.dockerHubToken }}
