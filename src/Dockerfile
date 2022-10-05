@@ -25,7 +25,7 @@ RUN rm -rf /usr/share/man
 
 WORKDIR $userHome
 ONBUILD ADD . .
-ONBUILD RUN chown --recursive .
+ONBUILD RUN chown --recursive $userId:$groupId .
 ONBUILD RUN chmod --recursive o+x bin
 ONBUILD RUN /usr/bin/bash -c "if [[ -f bin/build ]]; then; bin/build; rm bin/build; fi"
 ENTRYPOINT ["/usr/bin/sh", "-c", "/usr/bin/su --command bin/run $userName"]
