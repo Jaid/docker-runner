@@ -13,4 +13,4 @@ ONBUILD ADD content .
 ONBUILD RUN chown --recursive $userId:$groupId .
 ONBUILD RUN chmod --recursive o+x bin
 ONBUILD RUN if [ -f "$userHome/bin/prepare.bash" ]; then /usr/bin/bash -o errexit -o xtrace -o pipefail "$userHome/bin/prepare.bash"; rm "$userHome/bin/prepare.bash"; fi
-ENTRYPOINT ["/usr/bin/sh", "-c", "/usr/bin/su --command bin/run $userName"]
+ENTRYPOINT ["/usr/bin/sh", "-c", "/usr/bin/su --command '/usr/bin/bash -o errexit -o pipefail -o xtrace bin/run.bash' $userName"]
