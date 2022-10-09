@@ -7,7 +7,7 @@ ENV groupId $userId
 ENV userHome /$userName
 
 WORKDIR $userHome
-ADD content/* .
+ADD content .
 RUN bash -o errexit -o xtrace -o pipefail ./init
 ONBUILD ADD content .
 ONBUILD RUN chown --recursive $userId:$groupId .
