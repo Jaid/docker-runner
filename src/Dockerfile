@@ -1,6 +1,6 @@
-ARG ubuntuVersion=22.10
+ARG image=ubuntu:rolling
 
-FROM ubuntu:$ubuntuVersion
+FROM $image
 
 ENV userName app
 ENV groupName $userName
