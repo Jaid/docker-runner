@@ -28,7 +28,9 @@ jobs:
     uses: jaid/workflows/.github/workflows/bumpDocker.yml@main
     with:
       bumpAmount: ${{ inputs.bumpAmount }}
-      buildArgs: image=${{ matrix.image }}
+      buildArgs: |
+        image=${{ matrix.image }}
+        flavorSuffix=${{ matrix.flavorSuffix }}
       flavorSuffix: ${{ matrix.flavorSuffix }}
       arch: ${{ matrix.arch }}
     secrets:
