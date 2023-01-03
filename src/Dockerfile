@@ -1,5 +1,7 @@
 ARG image=ubuntu:rolling
 
+FROM jaidchen/builder:2.0.1 AS build
+
 FROM $image
 
 ENV userName app
@@ -8,6 +10,7 @@ ENV userId 1000
 ENV groupId $userId
 ENV userHome /$userName
 
+COPY --from=build /build/tini/tini-static /bin/tini
 WORKDIR $userHome
 ADD *.bash /bin
 RUN ["/bin/bash", "-o", "errexit", "-o", "pipefail", "-o", "xtrace", "/bin/init.bash"]
