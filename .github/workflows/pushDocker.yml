@@ -12,7 +12,7 @@ jobs:
       contents: read
     uses: jaid/workflows/.github/workflows/testDocker.yml@main
     with:
-      test: /\+0+\s+\.cargo/.test(stdout)
+      test: stdout.includes('run.bash not found')
   pushDocker:
     needs: test
     strategy:

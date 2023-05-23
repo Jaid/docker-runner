@@ -1,7 +1,7 @@
 ARG image=ubuntu:rolling
 ARG flavorSuffix=
 
-FROM jaidchen/builder:2.0.1$flavorSuffix AS build
+FROM jaidchen/builder:v2.1.2$flavorSuffix AS build
 
 FROM $image
 
@@ -12,6 +12,7 @@ ENV groupId $userId
 ENV userHome /$userName
 
 COPY --from=build /build/tini/tini-static /bin/tini
+COPY --from=build /bin/aptGet /bin/aptGet
 ADD *.bash /bin
 RUN ["/bin/bash", "-o", "errexit", "-o", "pipefail", "-o", "xtrace", "/bin/init.bash"]
 WORKDIR $userHome
