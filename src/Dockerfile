@@ -12,9 +12,9 @@ ENV groupId $userId
 ENV userHome /$userName
 
 COPY --from=build /build/tini/tini-static /bin/tini
-WORKDIR $userHome
 ADD *.bash /bin
 RUN ["/bin/bash", "-o", "errexit", "-o", "pipefail", "-o", "xtrace", "/bin/init.bash"]
+WORKDIR $userHome
 ONBUILD ADD *.bash /bin
 ONBUILD RUN ["/bin/bash", "-o", "errexit", "-o", "pipefail", "-o", "xtrace", "-c", "if [[ -f /bin/prepare.bash ]]; then /bin/bash -o errexit -o pipefail -o xtrace /bin/prepare.bash; rm /bin/prepare.bash; fi"]
 ONBUILD RUN chown --recursive $userId:$groupId .
