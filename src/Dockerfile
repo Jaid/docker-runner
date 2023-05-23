@@ -1,5 +1,5 @@
 ARG image=ubuntu:rolling
-ARG builderVersion=2.1.2
+ARG builderVersion=3.0.0
 ARG builderFlavor=
 
 FROM jaidchen/builder:v$builderVersion$builderFlavor AS build
@@ -20,5 +20,6 @@ WORKDIR $userHome
 ONBUILD ADD *.bash /bin
 ONBUILD RUN ["/bin/bash", "-o", "errexit", "-o", "pipefail", "-o", "xtrace", "-c", "if [[ -f /bin/prepare.bash ]]; then /bin/bash -o errexit -o pipefail -o xtrace /bin/prepare.bash; rm /bin/prepare.bash; fi"]
 ONBUILD RUN chown --recursive $userId:$groupId .
-ENTRYPOINT ["/bin/bash", "-o", "errexit", "-o", "pipefail", "-o", "xtrace", "/bin/entrypoint.bash"]
+ENTRYPOINT ["/bin/tini", "--"]
+CMD ["/bin/bash", "-o", "errexit", "-o", "pipefail", "-o", "xtrace", "/bin/entrypoint.bash"]
 HEALTHCHECK --interval=60s CMD ["/bin/bash", "-o", "errexit", "-o", "pipefail", "-o", "xtrace", "/bin/healthCheck.bash"]
