@@ -1,7 +1,7 @@
 #!/bin/env bash
 
 if [[ ! -f /bin/run.bash ]]; then
-  printf '/bin/run.bash not found\n'
+  printf 'bin/run.bash not found\n'
   exit 0
 fi
 
