@@ -1,7 +1,8 @@
 ARG image=ubuntu:rolling
-ARG flavorSuffix=
+ARG builderVersion=2.1.2
+ARG builderFlavor=
 
-FROM jaidchen/builder:v2.1.2$flavorSuffix AS build
+FROM jaidchen/builder:v$builderVersion$builderFlavor AS build
 
 FROM $image
 

@@ -16,13 +16,14 @@ jobs:
   pushDocker:
     needs: test
     strategy:
-      fail-fast: false
       matrix:
         include:
           - image: ubuntu:rolling
           - flavorSuffix: lts
+            builderFlavor: -lts
             image: ubuntu:latest
           - flavorSuffix: debian
+            builderFlavor: -debian
             image: debian:stable-slim
     uses: jaid/workflows/.github/workflows/pushDocker.yml@main
     with:
@@ -30,7 +31,7 @@ jobs:
       arch: linux/amd64,linux/arm64/v8
       buildArgs: |
         image=${{ matrix.image }}
-        flavorSuffix=${{ matrix.flavorSuffix }}
+        builderFlavor=${{ matrix.builderFlavor }}
       flavorSuffix: ${{ matrix.flavorSuffix }}
     secrets:
       dockerHubToken: ${{ secrets.dockerHubToken }}

@@ -30,13 +30,17 @@ jobs:
         include:
           - image: ubuntu:rolling
           - flavorSuffix: lts
+            builderFlavor: -lts
             image: ubuntu:latest
           - flavorSuffix: debian
+            builderFlavor: -debian
             image: debian:stable-slim
     uses: jaid/workflows/.github/workflows/pushDocker.yml@main
     with:
       dockerHubUser: jaidchen
-      buildArgs: image=${{ matrix.image }}
+      buildArgs: |
+        image=${{ matrix.image }}
+        builderFlavor=${{ matrix.builderFlavor }}
       flavorSuffix: ${{ matrix.flavorSuffix }}
       arch: linux/amd64,linux/arm64/v8
       versionTag: ${{ needs.bump.outputs.newTag }}
