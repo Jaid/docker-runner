@@ -1,4 +1,6 @@
 #!/bin/env bash
 set -o errexit -o pipefail
 
-downloadGithubArchive krallin/tini tini sha 378bbbc8909a960e89de220b1a4e50781233a740
+tiniCommit=0b44d3665869e46ccbac7414241b8256d6234dc4
+
+downloadGithubArchive krallin/tini tini sha $tiniCommit

@@ -1,11 +1,13 @@
 ARG image=ubuntu:rolling
-ARG builderVersion=4.0.1
+ARG builderVersion=4.1.0
 ARG builderFlavor=
 
 FROM jaidchen/builder:$builderVersion$builderFlavor AS build
 
 FROM $image
 
+WORKDIR $userHome
+SHELL [ "/bin/bash", "-o", "errexit", "-o", "pipefail", "-o", "xtrace", "-c" ]
 ENV userName app
 ENV groupName $userName
 ENV userId 1000
@@ -15,8 +17,7 @@ ENV userHome /$userName
 COPY --from=build /build/tini/tini-static /tini
 COPY --from=build /bin/aptGet /bin/aptGet
 ADD *.bash /bin
-RUN ["/bin/bash", "-o", "errexit", "-o", "pipefail", "-o", "xtrace", "/bin/init.bash"]
-WORKDIR $userHome
+RUN /bin/bash -o xtrace /bin/init.bash
 ONBUILD ADD *.bash /bin
 ONBUILD RUN ["/bin/bash", "-o", "errexit", "-o", "pipefail", "-o", "xtrace", "-c", "if [[ -f /bin/prepare.bash ]]; then /bin/bash -o errexit -o pipefail -o xtrace /bin/prepare.bash; rm /bin/prepare.bash; fi"]
 ONBUILD RUN chown --recursive $userId:$groupId .
