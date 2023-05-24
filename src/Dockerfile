@@ -1,5 +1,5 @@
 ARG image=ubuntu:rolling
-ARG builderVersion=4.1.0
+ARG builderVersion=4.3.0
 ARG builderFlavor=
 
 FROM jaidchen/builder:$builderVersion$builderFlavor AS build
