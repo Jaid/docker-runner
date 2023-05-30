@@ -6,32 +6,43 @@ on:
   schedule:
     - cron: 45 23 * * 0 # https://crontab.guru/#45_23_*_*_0
 jobs:
+  matrix:
+    uses: ./.github/workflows/makeMatrix.yml
   test:
-    name: Test Docker
+    name: test${{ matrix.id && format(' ({0})', matrix.id) }}
+    needs:
+      - matrix
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.matrix.outputs.output) }}
     permissions:
       contents: read
     uses: jaid/workflows/.github/workflows/testDocker.yml@main
     with:
-      test: stdout.includes('run.bash not found')
+      test: /\+0+\s+\.cargo/.test(stdout)
+      buildArgs: |
+        image=${{ matrix.base }}
+        pythonPackageVersion=${{ matrix.pythonVersion }}
+        javaVersion=${{ matrix.javaVersion }}
+      arch: ${{ matrix.platform }}
   pushDocker:
-    needs: test
+    name: push${{ matrix.id && format(' ({0})', matrix.id) }}
+    needs:
+      - test
+      - matrix
     strategy:
+      fail-fast: false
       matrix:
-        include:
-          - image: ubuntu:rolling
-          - flavorSuffix: lts
-            builderFlavor: -lts
-            image: ubuntu:latest
-          - flavorSuffix: debian
-            builderFlavor: -debian
-            image: debian:stable-slim
+        include: ${{ fromJson(needs.matrix.outputs.output) }}
     uses: jaid/workflows/.github/workflows/pushDocker.yml@main
     with:
       dockerHubUser: jaidchen
-      arch: linux/amd64,linux/arm64/v8
+      arch: ${{ matrix.platform }}
       buildArgs: |
-        image=${{ matrix.image }}
-        builderFlavor=${{ matrix.builderFlavor }}
-      flavorSuffix: ${{ matrix.flavorSuffix }}
+        image=${{ matrix.base }}
+        pythonPackageVersion=${{ matrix.pythonVersion }}
+        javaVersion=${{ matrix.javaVersion }}
+      flavorSuffix: ${{ matrix.id }}
     secrets:
       dockerHubToken: ${{ secrets.dockerHubToken }}
