@@ -20,11 +20,8 @@ jobs:
       contents: read
     uses: jaid/workflows/.github/workflows/testDocker.yml@main
     with:
-      test: /\+0+\s+\.cargo/.test(stdout)
-      buildArgs: |
-        image=${{ matrix.base }}
-        pythonPackageVersion=${{ matrix.pythonVersion }}
-        javaVersion=${{ matrix.javaVersion }}
+      test: stdout.includes('run.bash not found')
+      buildArgs: image=${{ matrix.base }}
       arch: ${{ matrix.platform }}
   pushDocker:
     name: push${{ matrix.id && format(' ({0})', matrix.id) }}
@@ -41,8 +38,6 @@ jobs:
       arch: ${{ matrix.platform }}
       buildArgs: |
         image=${{ matrix.base }}
-        pythonPackageVersion=${{ matrix.pythonVersion }}
-        javaVersion=${{ matrix.javaVersion }}
       flavorSuffix: ${{ matrix.id }}
     secrets:
       dockerHubToken: ${{ secrets.dockerHubToken }}
