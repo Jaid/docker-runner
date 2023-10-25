@@ -5,39 +5,24 @@ on:
       - main
   schedule:
     - cron: 45 23 * * 0 # https://crontab.guru/#45_23_*_*_0
+  repository_dispatch:
+    types: [bumped]
 jobs:
-  matrix:
-    uses: ./.github/workflows/makeMatrix.yml
-  test:
-    name: test${{ matrix.id && format(' ({0})', matrix.id) }}
-    needs:
-      - matrix
-    strategy:
-      fail-fast: false
-      matrix:
-        include: ${{ fromJson(needs.matrix.outputs.output) }}
+  debug:
+    uses: jaid/workflows/.github/workflows/debug.yml@main
+  job:
+    name: ${{ github.workflow }}
+    uses: jaid/workflows/.github/workflows/pushDocker.yml@main
     permissions:
       contents: read
-    uses: jaid/workflows/.github/workflows/testDocker.yml@main
-    with:
-      test: stdout.includes('run.bash not found')
-      buildArgs: image=${{ matrix.base }}
-      arch: ${{ matrix.platform }}
-  pushDocker:
-    name: push${{ matrix.id && format(' ({0})', matrix.id) }}
-    needs:
-      - test
-      - matrix
-    strategy:
-      fail-fast: false
-      matrix:
-        include: ${{ fromJson(needs.matrix.outputs.output) }}
-    uses: jaid/workflows/.github/workflows/pushDocker.yml@main
+      packages: write
     with:
       dockerHubUser: jaidchen
-      arch: ${{ matrix.platform }}
-      buildArgs: |
-        image=${{ matrix.base }}
-      flavorSuffix: ${{ matrix.id }}
+      matrixPlatform: linux/amd64 linux/arm64/v8
+      matrixBases: ubuntu:rolling ubuntu:latest debian:stable-slim
+      matrixAdditionEvals: |-
+        image: base
+      testEval: status === 0 && stdout.length > 0
+      versionTag: ${{ github.event.client_payload.newTag }}
     secrets:
       dockerHubToken: ${{ secrets.dockerHubToken }}
