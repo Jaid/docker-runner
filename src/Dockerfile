@@ -24,5 +24,5 @@ ONBUILD ADD *.bash /bin
 ONBUILD RUN ["/bin/bash", "-o", "errexit", "-o", "pipefail", "-o", "xtrace", "-c", "if [[ -f /bin/prepare.bash ]]; then /bin/bash -o errexit -o pipefail -o xtrace /bin/prepare.bash; rm /bin/prepare.bash; fi"]
 ONBUILD RUN chown --recursive $userId:$groupId $userHome
 ENTRYPOINT ["/tini", "--"]
-CMD ["/bin/bash", "-o", "errexit", "-o", "pipefail", "-o", "xtrace", "/bin/entrypoint.bash"]
-HEALTHCHECK --interval=60s CMD ["/bin/bash", "-o", "errexit", "-o", "pipefail", "-o", "xtrace", "/bin/healthCheck.bash"]
+CMD ["/bin/bash", "-o", "errexit", "-o", "pipefail", "/bin/entrypoint.bash"]
+HEALTHCHECK --interval=60s CMD ["/bin/bash", "-o", "errexit", "-o", "pipefail", "/bin/healthCheck.bash"]
